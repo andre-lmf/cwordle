@@ -130,4 +130,5 @@ int main(void)
     {
         printf("Você perdeu! A palavra era \"%s\".\n", palavra);
     }
+    return 0;
 }
