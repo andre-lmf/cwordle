@@ -124,7 +124,7 @@ int main(void)
             }
         }
         printf("\n");
-        puts(cores);
+        printf("Cores: %s\n", cores);
 
         if (!strcmp(entrada, palavra))
         {
