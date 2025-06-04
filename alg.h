@@ -6,7 +6,7 @@
 
 const char* word(char *linha){
     srand(time(NULL));
-    FILE *arquivo = fopen("wordle-list", "r");
+    FILE *arquivo = fopen("./word_list/wordle-list", "r");
     if (arquivo == NULL) {
         perror("Erro ao abrir o arquivo");
         return "1";

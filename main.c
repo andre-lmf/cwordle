@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include "alg.c" // Algoritmos para gerar uma palavra aleatória
+#include "alg.h" // Algoritmos para gerar uma palavra aleatória
 int main(void)
 {
     char linha[7], chute[8], palavra[8], palavra_var[8], cores[7], letras_g[7], letras_y[7], letras_y_filter[7]; // VALORES DE ARRAY MTO ALEATÓRIOS ISSO DEU CERTO ENT NN VOU MUDAR
