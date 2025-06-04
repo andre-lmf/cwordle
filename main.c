@@ -2,15 +2,17 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include "alg.h" // Algoritmos para gerar uma palavra aleatória
+#include "alg.h" // Algoritmos úteis
 int main(void)
 {
+    // Talvez diminuir a quantidade de variáveis?
     char linha[7], chute[8], palavra[8], palavra_var[8], cores[7], letras_g[7], letras_y[7], letras_y_filter[7]; // VALORES DE ARRAY MTO ALEATÓRIOS ISSO DEU CERTO ENT NN VOU MUDAR
     bool found = false;
     int tentativas = 1, index_i, index_j;
     strncpy(palavra, word(linha), sizeof word(linha) - 1);
     strncpy(palavra_var, palavra, sizeof palavra - 1);
-    // puts(palavra);
+
+
     char entrada[160]; // Evitar casos em que qtd de caracteres>5 (Veja ponto 1)
     strncpy(cores, "#####", 7);
     cores[strcspn(cores, "\n")] = '\0';
@@ -24,6 +26,14 @@ int main(void)
         }
         printf("Chute %d: ", i);
         strncpy(chute, "*****", 5);
+
+        /**
+         * Tentar validar a entrada com a lista de palavras;
+         * (por exemplo, "aaaaa" não está na lista, portanto não é válida)
+         * Evitar O(n), talvez busca binária?
+         * 
+         * 
+        */
         while (fgets(entrada, sizeof entrada - 1, stdin))
         {
             entrada[strcspn(entrada, "\n")] = '\0';
@@ -58,6 +68,9 @@ int main(void)
         }
         letras_g[strcspn(letras_g, "\n")] = '\0';
         index_j = strlen(letras_y);
+
+
+
         for (int i = 0; i < 5; i++)
         {
             entrada[i] = tolower(entrada[i]);
@@ -77,9 +90,13 @@ int main(void)
             }
         }
         remover_caracteres_iguais(letras_g, letras_y, letras_y_filter);
-        // int n = sizeof(letras_g)/sizeof(letras_g[0]);
-        // qsort(letras_g, n, sizeof(char), comparar);
-        // teste2(letras_g, strlen(letras_g));
+
+
+        /**
+         * Ordenar alfabeticamente letras_g e letras_y_filter
+         * Preferencialmente com a melhor complexidade de tempo possível
+        */
+
         printf("Letras verdes: ");
         for (int i = 0; i < strlen(letras_g); i++)
         {
@@ -93,9 +110,7 @@ int main(void)
             }
         }
         printf("\n");
-        // n = sizeof(letras_y_filter)/sizeof(letras_y_filter[0]);
-        // qsort(letras_y_filter, n, sizeof(char), comparar);
-        // teste2(letras_y_filter, strlen(letras_y_filter));
+
         printf("Letras amarelas: ");
         for (int i = 0; i < strlen(letras_y_filter); i++)
         {
@@ -109,7 +124,7 @@ int main(void)
             }
         }
         printf("\n");
-        puts(cores);
+        printf("Cores: %s\n", cores);
 
         if (!strcmp(entrada, palavra))
         {
