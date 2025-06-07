@@ -6,33 +6,30 @@
 int main(void)
 {
     // Talvez diminuir a quantidade de variáveis?
-    char linha[7], chute[8], palavra[8], palavra_var[8], cores[7], letras_g[7], letras_y[7], letras_y_filter[7]; // VALORES DE ARRAY MTO ALEATÓRIOS ISSO DEU CERTO ENT NN VOU MUDAR
+    char chute[8], palavra[8], palavra_var[8], cores[8], letras_g[8] = {0}, letras_y[8] = {0}, letras_y_filter[8]; // VALORES DE ARRAY MTO ALEATÓRIOS ISSO DEU CERTO ENT NN VOU MUDAR
     bool found = false;
     int tentativas = 1, index_i, index_j;
-    strncpy(palavra, word(linha), sizeof word(linha) - 1);
+    word(palavra);
+    // palavra[strcspn(palavra, "\n")] = '\0';
     strncpy(palavra_var, palavra, sizeof palavra - 1);
-
-
-    char entrada[160]; // Evitar casos em que qtd de caracteres>5 (Veja ponto 1)
+    char entrada[160]; // Evitar casos em que qtd de caracteres!=5 (Veja ponto 1)
     strncpy(cores, "#####", 7);
     cores[strcspn(cores, "\n")] = '\0';
+    puts(palavra);
     for (int i = 1; i < 7; i++)
     {
         index_i = strlen(letras_g);
-        puts(palavra);
         if (i != 1)
         {
             puts(chute);
         }
         printf("Chute %d: ", i);
-        strncpy(chute, "*****", 5);
-
+        strncpy(chute, "*****", 6);
+        chute[strcspn(chute, "\n")] = '\0';
         /**
          * Tentar validar a entrada com a lista de palavras;
          * (por exemplo, "aaaaa" não está na lista, portanto não é válida)
          * Evitar O(n), talvez busca binária?
-         * 
-         * 
         */
         while (fgets(entrada, sizeof entrada - 1, stdin))
         {
@@ -66,10 +63,9 @@ int main(void)
                 }
             }
         }
+
         letras_g[strcspn(letras_g, "\n")] = '\0';
         index_j = strlen(letras_y);
-
-
 
         for (int i = 0; i < 5; i++)
         {
@@ -92,10 +88,8 @@ int main(void)
         remover_caracteres_iguais(letras_g, letras_y, letras_y_filter);
 
 
-        /**
-         * Ordenar alfabeticamente letras_g e letras_y_filter
-         * Preferencialmente com a melhor complexidade de tempo possível
-        */
+        qsort(letras_g, strlen(letras_g), sizeof(char), comp);
+        qsort(letras_y_filter, strlen(letras_y_filter), sizeof(char), comp);
 
         printf("Letras verdes: ");
         for (int i = 0; i < strlen(letras_g); i++)
@@ -116,7 +110,7 @@ int main(void)
         {
             if (i != strlen(letras_y_filter) - 1)
             {
-                printf("%c,", letras_y_filter[i]);
+                printf("%c, ", letras_y_filter[i]);
             }
             else
             {
