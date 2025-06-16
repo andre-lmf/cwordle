@@ -13,7 +13,7 @@ int main(void)
     // palavra[strcspn(palavra, "\n")] = '\0';
     strncpy(palavra_var, palavra, sizeof palavra - 1);
     char entrada[160]; // Evitar casos em que qtd de caracteres!=5 (Veja ponto 1)
-    strncpy(cores, "#####", 7);
+    strncpy(cores, "*****", 7);
     cores[strcspn(cores, "\n")] = '\0';
     puts(palavra);
     for (int i = 1; i < 7; i++)
@@ -24,7 +24,7 @@ int main(void)
             puts(chute);
         }
         printf("Chute %d: ", i);
-        strncpy(chute, "*****", 6);
+        strncpy(chute, "#####", 6);
         chute[strcspn(chute, "\n")] = '\0';
         /**
          * Tentar validar a entrada com a lista de palavras;
@@ -127,7 +127,7 @@ int main(void)
         }
         strncpy(palavra_var, palavra, sizeof palavra - 1);
         palavra_var[strcspn(palavra_var, "\n")] = '\0';
-        strncpy(cores, "#####", 7);
+        strncpy(cores, "*****", 7);
         cores[strcspn(cores, "\n")] = '\0';
         tentativas++;
     }
