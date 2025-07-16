@@ -2,21 +2,40 @@
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include "alg.h" // Algoritmos úteis
+#include "alg.h"
+
+/**
+ * Função principal do jogo CWordle
+ * 
+ * O jogador deve adivinhar uma palavra de 5 letras em até 6 tentativas
+ * 
+ * A cada tentativa, o jogador recebe feedback sobre as letras corretas e suas posições
+ * 
+ * Se a letra estiver na posição correta, ela é marcada como verde (G)
+ * Se a letra estiver na palavra, mas na posição errada, ela é marcada como amarela (Y)
+ * Se a letra não estiver na palavra, ela não recebe marcação
+ * 
+ * O jogo termina quando o jogador adivinha a palavra ou esgota as tentativas
+ * @param void
+ * @return 0 se o jogo for concluído com sucesso. 1 se o jogo não rodar
+ */
 int main(void)
 {
-    // Talvez diminuir a quantidade de variáveis?
-    char chute[8], palavra[8], palavra_var[8], cores[8], letras_g[8] = {0}, letras_y[8] = {0}, letras_y_filter[8]; // VALORES DE ARRAY MTO ALEATÓRIOS ISSO DEU CERTO ENT NN VOU MUDAR
+    char chute[8], palavra[8] = {0}, palavra_var[8], cores[8], letras_g[8] = {0}, letras_y[8] = {0}, letras_y_filter[8];
     bool found = false;
     int tentativas = 1, index_i, index_j;
     word(palavra);
+    if(strlen(palavra) < 5) {
+        printf("Erro ao ler a palavra.\n");
+        return 1;
+    }
     // palavra[strcspn(palavra, "\n")] = '\0';
     strncpy(palavra_var, palavra, sizeof palavra - 1);
-    char entrada[160]; // Evitar casos em que qtd de caracteres!=5 (Veja ponto 1)
+    char entrada[160];
     strncpy(cores, "*****", 7);
     cores[strcspn(cores, "\n")] = '\0';
-    puts(palavra);
-    for (int i = 1; i < 7; i++)
+    puts(palavra); // debug
+    for (int i = 1; i <= 6; i++)
     {
         index_i = strlen(letras_g);
         if (i != 1)
@@ -26,17 +45,19 @@ int main(void)
         printf("Chute %d: ", i);
         strncpy(chute, "#####", 6);
         chute[strcspn(chute, "\n")] = '\0';
-        /**
-         * Tentar validar a entrada com a lista de palavras;
-         * (por exemplo, "aaaaa" não está na lista, portanto não é válida)
-         * Evitar O(n), talvez busca binária?
-        */
+
         while (fgets(entrada, sizeof entrada - 1, stdin))
         {
             entrada[strcspn(entrada, "\n")] = '\0';
+            for (int i = 0; i < strlen(entrada); i++)
+            {
+                entrada[i] = tolower(entrada[i]);
+            }
             if (strlen(entrada) == 5)
-            { // 5 letras (1)
-                break;
+                if(procurar_palavra(entrada)) {
+                    break;
+                } else {
+                    printf("Palavra inválida. Tente novamente.\n");
             }
             else
             {
@@ -44,13 +65,14 @@ int main(void)
             }
             printf("Chute %d: ", i);
         }
+
+
         for (int i = 0; i < 5; i++)
         {
-            entrada[i] = tolower(entrada[i]);
             if (entrada[i] == palavra[i])
             {
                 chute[i] = entrada[i];
-                cores[i] = 'G';
+                // cores[i] = 'G';
                 char *pos = strchr(palavra_var, entrada[i]);
                 if (pos)
                 {
@@ -69,8 +91,10 @@ int main(void)
 
         for (int i = 0; i < 5; i++)
         {
-            entrada[i] = tolower(entrada[i]);
-            if (cores[i] != 'G' && strchr(palavra_var, entrada[i]))
+            if 
+            (
+                cores[i] != 'G' && 
+                strchr(palavra_var, entrada[i]))
             {
                 cores[i] = 'Y';
                 char *pos = strchr(palavra_var, entrada[i]);
@@ -118,7 +142,7 @@ int main(void)
             }
         }
         printf("\n");
-        printf("Cores: %s\n", cores);
+        // printf("Cores: %s\n", cores);
 
         if (!strcmp(entrada, palavra))
         {
@@ -128,7 +152,7 @@ int main(void)
         strncpy(palavra_var, palavra, sizeof palavra - 1);
         palavra_var[strcspn(palavra_var, "\n")] = '\0';
         strncpy(cores, "*****", 7);
-        cores[strcspn(cores, "\n")] = '\0';
+        // cores[strcspn(cores, "\n")] = '\0';
         tentativas++;
     }
     if (found)
