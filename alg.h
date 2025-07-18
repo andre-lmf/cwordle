@@ -244,24 +244,22 @@ void exibir_letras(char letras[]){
 void imprimir_chute(char cores[], char entrada[]){
     for (int i = 0; i < 5; i++)
         {
-            if (cores[i]!='*')
+            if(cores[i]=='G')
             {
-                if (cores[i]=='G')
-                {
-                    printf(BOLD);
-                    printf(GRN);
-                }
-                if(cores[i]=='Y') {
-                    printf(BOLD);
-                    printf(YEL);
-                }
-                printf("%c", entrada[i]);
-                printf(RESET);
-            } else {
+                printf(BOLD);
+                printf(GRN);
+            }
+            if(cores[i]=='Y') {
+                printf(BOLD);
+                printf(YEL);
+            }
+            if (cores[i]=='*')
+            {
+                printf(BOLD);
                 printf(RED);
-                printf("*");
-                printf(RESET);
-            }   
+            }
+            printf("%c", entrada[i]);
+            printf(RESET);
         }
 }
 
